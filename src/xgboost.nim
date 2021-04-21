@@ -1,6 +1,7 @@
 import xgboost/libxgboost
 import json
 import sequtils
+import strformat
 
 export libxgboost
 
@@ -54,7 +55,14 @@ proc finalize(m: XGDMatrix) =
     check: XGDMatrixFree(m.self)
     m.self = nil
 
-proc newXGDMatrix*(nRow, nCol: int, data: seq[float32] = @[], missing: float32 = 0.0): XGDMatrix =
+proc newXGDMatrix*(fname: string, silent: int = 1): XGDMatrix =
+  result.new(finalize)
+  check: XGDMatrixCreateFromFile(fname, silent.cint, result.self.addr)
+
+proc newXGDMatrix*(data: seq[float32], nRow, nCol: int, missing: float32 = NaN.float32): XGDMatrix =
+  if data.len != nRow * nCol:
+    raise newException(XGError, fmt"invalid length of data data.len={data.len} nRow={nRow} nCol={nCol}")
+
   ## create matrix content from dense matrix 
   result.new(finalize)
   var dummy: float32
@@ -67,6 +75,19 @@ proc newXGDMatrix*(nRow, nCol: int, data: seq[float32] = @[], missing: float32 =
     missing, 
     result.self.addr
   )
+
+proc newXGDMatrix*(data: seq[float32], nRow: int, missing: float32 = NaN.float32): XGDMatrix =
+  let nCol = data.len div nRow
+  if nCol * nRow != data.len:
+    raise newException(XGError, fmt"invalid length of data data.len={data.len} nRow={nRow}")
+  result = newXGDMatrix(data, nRow, nCol, missing)
+
+proc newXGDMatrix*[N: static int](data: seq[array[N, float32]], missing: float32 = NaN.float32): XGDMatrix =
+  let nRow = N
+  let nCol = data.len div nRow
+  if nCol * nRow != data.len:
+    raise newException(XGError, fmt"invalid length of data data.len={data.len} nRow={nRow}")
+  result = newXGDMatrix(data, nRow, nCol, missing)
 
 proc nRow*(m: XGDMatrix): int =
   var tmp: uint64
@@ -104,15 +125,17 @@ proc newXGBooster*(m: seq[XGDMatrix] = @[]): XGBooster =
     m.len.uint64, 
     result.self.addr
   )
-
 proc setParam*(b: XGBooster, name, value: string) =
   check: XGBoosterSetParam(b.self, name, value)
+
+proc setParam*(b: XGBooster, pairs: openArray[(string, string)]) =
+  for pair in pairs:
+    b.setParam(pair[0], pair[1])
 
 proc update*(b: XGBooster, iter: int, dtrain: XGDMatrix) = 
   check: XGBoosterUpdateOneIter(b.self, iter.cint, dtrain.self)
 
-# proc boost*(b: XGBooster, dtrain: XGDMatrix, grad) = 
-proc eval*(b: XGBooster, iter: int, dmats: seq[(string, XGDMatrix)]): string = 
+proc eval*(b: XGBooster, iter: int, dmats: openArray[(string, XGDMatrix)]): string = 
   var ms = dmats.mapIt(it[1].self)
   var ns = dmats.mapIt(it[0].cstring)
   result = newString(1024)
@@ -125,17 +148,28 @@ proc eval*(b: XGBooster, iter: int, dmats: seq[(string, XGDMatrix)]): string =
     cast[cstringArray](result.addr)
   )
 
+proc train*(b: XGBooster, dtrain: XGDMatrix, nRound: int) = 
+  for i in 1..nRound:
+    b.update(i, dtrain)
+
 proc predict*(
   b: XGBooster, 
   m: XGDMatrix, 
-  json: JsonNode
+  # json: JsonNode = newJObject()
 ): seq[float32] =
   result = newSeq[float32](m.nRow)
   # var outResult = alloc(m.nRow * sizeof(float32))
+  var jsonConf = $ %*{
+    "type": 0,
+    "training": false,
+    "iteration_begin": 0,
+    "iteration_end": 0,
+    "strict_shape": true,
+  }
   var outResult = result[0].addr
-  var jsonConf = $json
-  var outShape: array[2, uint64]
+  var outShape: array[4, uint64]
   var outDim: uint64
+  echo "outShape=", outShape
   check: XGBoosterPredictFromDMatrix(
     b.self, m.self, 
     jsonConf[0].addr,
@@ -144,6 +178,8 @@ proc predict*(
     # cast[ptr ptr float32](outResult.addr)
     cast[ptr ptr float32](outResult.addr)
   )
+  echo "outShape=", outShape
+  echo "outDim=", outDim
   # for i in 0 ..< m.nRow:
   #   result[i] = cast[float32](cast[ByteAddress](outResult) +% i * sizeof(float32))
   # dealloc(outResult)
