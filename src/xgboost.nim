@@ -14,6 +14,7 @@ type
   XGDevice* = ref object
 
   XGBooster* = ref object
+    self: BoosterHandle
 
 # -------------------------------------------------------------
 # Global Configuration
@@ -53,7 +54,7 @@ proc finalize(m: XGDMatrix) =
     check: XGDMatrixFree(m.self)
     m.self = nil
 
-proc newDMatrix*(nRow, nCol: int, data: seq[float32] = @[], missing: float32 = 0.0): XGDMatrix =
+proc newXGDMatrix*(nRow, nCol: int, data: seq[float32] = @[], missing: float32 = 0.0): XGDMatrix =
   ## create matrix content from dense matrix 
   result.new(finalize)
   var dummy: float32
@@ -90,21 +91,64 @@ proc slice*(handle: XGDMatrix, idx: seq[int]): XGDMatrix =
 # -------------------------------------------------------------
 # XGBooster
 
-when isMainModule:
-  import strformat
-  proc main() =
-    var major, minor, patch: cint
-    XGBoostVersion(major.addr, minor.addr, patch.addr)
-    echo fmt"{major}.{minor}.{patch}"
+proc finalize*(b: XGBooster) =
+  if not b.self.isNil:
+    check: XGBoosterFree(b.self)
+    b.self = nil
 
-    xgbSetGlobalConfig(%*{
-      "verbosity": 3
-    })
-    echo xgbGetGlobalConfig()
-    
-    # let m = newDMatrix(@[1f32,2,3,4], 2, 2)
-    let m = newDMatrix(10, 10)
+proc newXGBooster*(m: seq[XGDMatrix] = @[]): XGBooster =
+  result.new(finalize)
+  var arr = m.mapIt(it.self)
+  check: XGBoosterCreate(
+    if arr.len == 0: nil else: arr[0].unsafeAddr, 
+    m.len.uint64, 
+    result.self.addr
+  )
 
-    # echo m
-  main()
+proc setParam*(b: XGBooster, name, value: string) =
+  check: XGBoosterSetParam(b.self, name, value)
+
+# proc predict*(
+#   b: XGBooster, 
+#   m: XGDMatrix, 
+#   optionMask: int, 
+#   ntreeLimit: int,
+#   training: int,
+# ): seq[seq[float32]] =
+#   var outLen: uint64
+#   result = newSeq[seq[float32]](m.nRow)
+  
+#   check: XGBoosterPredict(
+#     b.self, m.self, 
+#     optionMask.int32, ntreeLimit.uint32, training.int32, 
+#     outLen.addr,
+#     result[0].addr
+#   )
+
+
+# proc loadModel()
+# saveModel()
+
+# getModelRaw()
+
+# serialize
+# unserialize
+# saveJsonConfig
+# loadJsonConfig
+
+# dumpModel
+
+# getAttr
+# setAtrr
+# getAttrNames
+
+
+
+# slice
+
+
+
+
+
+  
 

@@ -5,7 +5,7 @@ Nim wrapper for libxgboost 1.4.x
 ## Usage
 
 ```nim
-import libxgboost
+import xgboost
 
 ```
 
