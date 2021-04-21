@@ -108,22 +108,45 @@ proc newXGBooster*(m: seq[XGDMatrix] = @[]): XGBooster =
 proc setParam*(b: XGBooster, name, value: string) =
   check: XGBoosterSetParam(b.self, name, value)
 
-# proc predict*(
-#   b: XGBooster, 
-#   m: XGDMatrix, 
-#   optionMask: int, 
-#   ntreeLimit: int,
-#   training: int,
-# ): seq[seq[float32]] =
-#   var outLen: uint64
-#   result = newSeq[seq[float32]](m.nRow)
-  
-#   check: XGBoosterPredict(
-#     b.self, m.self, 
-#     optionMask.int32, ntreeLimit.uint32, training.int32, 
-#     outLen.addr,
-#     result[0].addr
-#   )
+proc update*(b: XGBooster, iter: int, dtrain: XGDMatrix) = 
+  check: XGBoosterUpdateOneIter(b.self, iter.cint, dtrain.self)
+
+# proc boost*(b: XGBooster, dtrain: XGDMatrix, grad) = 
+proc eval*(b: XGBooster, iter: int, dmats: seq[(string, XGDMatrix)]): string = 
+  var ms = dmats.mapIt(it[1].self)
+  var ns = dmats.mapIt(it[0].cstring)
+  result = newString(1024)
+  check: XGBoosterEvalOneIter(
+    b.self,
+    iter.cint,
+    ms[0].addr,
+    ns[0].addr,
+    dmats.len.uint64,
+    cast[cstringArray](result.addr)
+  )
+
+proc predict*(
+  b: XGBooster, 
+  m: XGDMatrix, 
+  json: JsonNode
+): seq[float32] =
+  result = newSeq[float32](m.nRow)
+  # var outResult = alloc(m.nRow * sizeof(float32))
+  var outResult = result[0].addr
+  var jsonConf = $json
+  var outShape: array[2, uint64]
+  var outDim: uint64
+  check: XGBoosterPredictFromDMatrix(
+    b.self, m.self, 
+    jsonConf[0].addr,
+    cast[ptr ptr uint64](outShape.addr),
+    outDim.addr,
+    # cast[ptr ptr float32](outResult.addr)
+    cast[ptr ptr float32](outResult.addr)
+  )
+  # for i in 0 ..< m.nRow:
+  #   result[i] = cast[float32](cast[ByteAddress](outResult) +% i * sizeof(float32))
+  # dealloc(outResult)
 
 
 # proc loadModel()
