@@ -25,12 +25,13 @@ type
 # Global Configuration
 
 proc xgbVersion*(): tuple[major: int, minor: int, patch: int] =
-  ## libxgboost version
+  ## Return the version of the XGBoost library being currently used. 
   var major, minor, patch: cint
   XGBoostVersion(major.addr, minor.addr, patch.addr)
   return (major.int, minor.int, patch.int)
 
 proc xgbGetLastError*(): string =
+  ## get string message of the last error 
   $XGBGetLastError()
 
 template check(x: untyped) =
@@ -39,14 +40,17 @@ template check(x: untyped) =
     err.returnCode = x
     raise err
 
-proc xgbRegisterLogCallback*(callback: proc (a1: string) {.gcsafe.}) =
+proc xgbRegisterLogCallback*(callback: proc (msg: string) {.gcsafe.}) =
+  ## register callback function for LOG(INFO) messages 
   check: XGBRegisterLogCallback(proc(s: cstring) {.cdecl.} = callback($s))
     
 proc xgbSetGlobalConfig*(json: JsonNode) =
+  ## Set global configuration (collection of parameters that apply globally).
   let s = $json
   check: XGBSetGlobalConfig(s)
 
 proc xgbGetGlobalConfig*(): JsonNode =
+  ## Get current global configuration (collection of parameters that apply globally). 
   var conf: cstring
   check: XGBGetGlobalConfig(cast[cstringArray](conf.addr))
   result = parseJson($conf)
@@ -97,16 +101,19 @@ proc newXGDMatrix*[N: static int](data: seq[array[N, float32]], missing: float32
   result = newXGDMatrix(copy, nRow, nCol, missing)
 
 proc nRow*(m: XGDMatrix): int =
+  ## get number of rows. 
   var tmp: uint64
   check: XGDMatrixNumRow(m.self, tmp.addr)
   result = tmp.int
 
 proc nCol*(m: XGDMatrix): int =
+  ## get number of columns 
   var tmp: uint64
   check: XGDMatrixNumCol(m.self, tmp.addr)
   result = tmp.int
 
 proc slice*(handle: XGDMatrix, idx: seq[int]): XGDMatrix =
+  ## create a new dmatrix from sliced content of existing matrix 
   result.new(finalize)
   var idx32 = idx.mapIt(it.cint)
   check: XGDMatrixSliceDMatrix(
@@ -133,16 +140,21 @@ proc newXGBooster*(toCaches: seq[XGDMatrix] = @[]): XGBooster =
     result.self.addr
   )
 proc setParam*(b: XGBooster, name, value: string) =
+  ## set parameters 
   check: XGBoosterSetParam(b.self, name, value)
 
 proc setParam*(b: XGBooster, pairs: openArray[(string, string)]) =
+  ## set parameters 
   for pair in pairs:
     b.setParam(pair[0], pair[1])
 
 proc update*(b: XGBooster, iter: int, dtrain: XGDMatrix) = 
+  ## update the model in one round using dtrain 
   check: XGBoosterUpdateOneIter(b.self, iter.cint, dtrain.self)
 
 proc eval*(b: XGBooster, iter: int, dmats: openArray[(string, XGDMatrix)]): string = 
+  ## get evaluation statistics for xgboost 
+
   var ms = dmats.mapIt(it[1].self)
   var ns = dmats.mapIt(it[0].cstring)
   var outResult: cstring
@@ -162,6 +174,8 @@ proc train*(
   num_boost_round: int = 10,
   evals: openArray[(string, XGDMatrix)] = [],
 ): XGBooster = 
+  ## Train booster.
+
   var toCaches = @[dtrain]
   for eval in evals:
     toCaches.add eval[1]
@@ -176,6 +190,7 @@ proc predict*(
   b: XGBooster, 
   m: XGDMatrix
 ): seq[float32] =
+  ## Make prediction from DMatrix.
   var jsonConf = $ %*{
     "type": 0,
     "training": false,
@@ -211,17 +226,21 @@ proc predict*(
     result[i] = cast[ptr float32](cast[ByteAddress](outResultPtr) +% i.int * sizeof(float32))[]
 
 proc predict*(b: XGBooster, v: seq[float32], missing: float32 = DEFAULT_MISSING): float32 =
+  ## Make prediction from single row.
   let m = newXGDMatrix(v, 1, v.len, missing)
   let res = b.predict(m)
   result = res[0]
 
 proc saveModel*(b: XGBooster, fname: string) =
+  ## Save model into existing file. 
   check: XGBoosterSaveModel(b.self, fname)
 
 proc loadModel*(b: XGBooster, fname: string) = 
+  ## Load model from existing file. 
   check: XGBoosterLoadModel(b.self, fname)
 
 proc getAttr*(b: XGBooster, key: string): Option[string] = 
+  ## Get string attribute from Booster. 
   var outResult: cstring
   var success: cint
   check: XGBoosterGetAttr(b.self, key, cast[cstringArray](outResult.addr), success.addr)
