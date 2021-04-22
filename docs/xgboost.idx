@@ -22,3 +22,8 @@ update	xgboost.html#update,XGBooster,int,XGDMatrix	xgboost: update(b: XGBooster;
 eval	xgboost.html#eval,XGBooster,int,openArray[]	xgboost: eval(b: XGBooster; iter: int; dmats: openArray[(string, XGDMatrix)]): string	
 train	xgboost.html#train,openArray[],XGDMatrix,int,openArray[]	xgboost: train(params: openArray[(string, string)]; dtrain: XGDMatrix;\n      num_boost_round: int = 10; evals: openArray[(string, XGDMatrix)] = []): XGBooster	
 predict	xgboost.html#predict,XGBooster,XGDMatrix	xgboost: predict(b: XGBooster; m: XGDMatrix): seq[float32]	
+saveModel	xgboost.html#saveModel,XGBooster,string	xgboost: saveModel(b: XGBooster; fname: string)	
+loadModel	xgboost.html#loadModel,XGBooster,string	xgboost: loadModel(b: XGBooster; fname: string)	
+getAttr	xgboost.html#getAttr,XGBooster,string	xgboost: getAttr(b: XGBooster; key: string): Option[string]	
+setAttr	xgboost.html#setAttr,XGBooster,string,string	xgboost: setAttr(b: XGBooster; key, value: string)	
+getAttrNames	xgboost.html#getAttrNames,XGBooster	xgboost: getAttrNames(b: XGBooster): seq[string]	

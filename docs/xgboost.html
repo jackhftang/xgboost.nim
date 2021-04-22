@@ -127,9 +127,19 @@ function main() {
     title="xgbSetGlobalConfig(json: JsonNode)">xgbSetGlobalConfig,<wbr>JsonNode</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">getAttr
+      <li><a class="reference" href="#getAttr%2CXGBooster%2Cstring"
+    title="getAttr(b: XGBooster; key: string): Option[string]">getAttr,<wbr>XGBooster,<wbr>string</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">nRow
       <li><a class="reference" href="#nRow%2CXGDMatrix"
     title="nRow(m: XGDMatrix): int">nRow,<wbr>XGDMatrix</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">setAttr
+      <li><a class="reference" href="#setAttr%2CXGBooster%2Cstring%2Cstring"
+    title="setAttr(b: XGBooster; key, value: string)">setAttr,<wbr>XGBooster,<wbr>string,<wbr>string</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">xgbRegisterLogCallback
@@ -150,6 +160,11 @@ function main() {
   <ul class="simple nested-toc-section">newXGBooster
       <li><a class="reference" href="#newXGBooster%2Cseq%5BXGDMatrix%5D"
     title="newXGBooster(toCaches: seq[XGDMatrix] = @[]): XGBooster">newXGBooster,<wbr>seq[XGDMatrix]</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">loadModel
+      <li><a class="reference" href="#loadModel%2CXGBooster%2Cstring"
+    title="loadModel(b: XGBooster; fname: string)">loadModel,<wbr>XGBooster,<wbr>string</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">newXGDMatrix
@@ -175,6 +190,16 @@ function main() {
   <ul class="simple nested-toc-section">finalize
       <li><a class="reference" href="#finalize%2CXGBooster"
     title="finalize(b: XGBooster)">finalize,<wbr>XGBooster</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">getAttrNames
+      <li><a class="reference" href="#getAttrNames%2CXGBooster"
+    title="getAttrNames(b: XGBooster): seq[string]">getAttrNames,<wbr>XGBooster</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">saveModel
+      <li><a class="reference" href="#saveModel%2CXGBooster%2Cstring"
+    title="saveModel(b: XGBooster; fname: string)">saveModel,<wbr>XGBooster,<wbr>string</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">xgbGetGlobalConfig
@@ -430,6 +455,42 @@ libxgboost version
 
 
 </dd>
+<a id="saveModel,XGBooster,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#saveModel%2CXGBooster%2Cstring"><span class="Identifier">saveModel</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">fname</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="loadModel,XGBooster,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#loadModel%2CXGBooster%2Cstring"><span class="Identifier">loadModel</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">fname</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="getAttr,XGBooster,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#getAttr%2CXGBooster%2Cstring"><span class="Identifier">getAttr</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">key</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Option</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="setAttr,XGBooster,string,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#setAttr%2CXGBooster%2Cstring%2Cstring"><span class="Identifier">setAttr</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">key</span><span class="Other">,</span> <span class="Identifier">value</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Set or delete string attribute. 
+
+</dd>
+<a id="getAttrNames,XGBooster"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#getAttrNames%2CXGBooster"><span class="Identifier">getAttrNames</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Get the names of all attribute from Booster. 
+
+</dd>
 
 </dl></div>
 <div class="section" id="19">
@@ -445,7 +506,7 @@ libxgboost version
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2021-04-22 03:48:12 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2021-04-22 04:29:40 UTC</small>
       </div>
     </div>
   </div>
