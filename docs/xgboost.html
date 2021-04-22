@@ -127,6 +127,15 @@ function main() {
     title="xgbSetGlobalConfig(json: JsonNode)">xgbSetGlobalConfig,<wbr>JsonNode</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">setInfo
+      <li><a class="reference" href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Bfloat32%5D"
+    title="setInfo(handle: XGDMatrix; field: string; arr: seq[float32])">setInfo,<wbr>XGDMatrix,<wbr>string,<wbr>seq[float32]</a></li>
+  <li><a class="reference" href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Buint32%5D"
+    title="setInfo(handle: XGDMatrix; field: string; arr: seq[uint32])">setInfo,<wbr>XGDMatrix,<wbr>string,<wbr>seq[uint32]</a></li>
+  <li><a class="reference" href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Bstring%5D"
+    title="setInfo(handle: XGDMatrix; field: string; arr: seq[string])">setInfo,<wbr>XGDMatrix,<wbr>string,<wbr>seq[string]</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">getAttr
       <li><a class="reference" href="#getAttr%2CXGBooster%2Cstring"
     title="getAttr(b: XGBooster; key: string): Option[string]">getAttr,<wbr>XGBooster,<wbr>string</a></li>
@@ -144,12 +153,24 @@ function main() {
   </ul>
   <ul class="simple nested-toc-section">xgbRegisterLogCallback
       <li><a class="reference" href="#xgbRegisterLogCallback%2Cproc%28string%29"
-    title="xgbRegisterLogCallback(callback: proc (a1: string) {.gcsafe.})">xgbRegisterLogCallback,<wbr>proc(string)</a></li>
+    title="xgbRegisterLogCallback(callback: proc (msg: string) {.gcsafe.})">xgbRegisterLogCallback,<wbr>proc(string)</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">predict
       <li><a class="reference" href="#predict%2CXGBooster%2CXGDMatrix"
     title="predict(b: XGBooster; m: XGDMatrix): seq[float32]">predict,<wbr>XGBooster,<wbr>XGDMatrix</a></li>
+  <li><a class="reference" href="#predict%2CXGBooster%2Cseq%5Bfloat32%5D%2Cfloat32"
+    title="predict(b: XGBooster; v: seq[float32]; missing: float32 = DEFAULT_MISSING): float32">predict,<wbr>XGBooster,<wbr>seq[float32],<wbr>float32</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">getFloatInfo
+      <li><a class="reference" href="#getFloatInfo%2CXGDMatrix%2Cstring"
+    title="getFloatInfo(handle: XGDMatrix; field: string): seq[float32]">getFloatInfo,<wbr>XGDMatrix,<wbr>string</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">saveBinary
+      <li><a class="reference" href="#saveBinary%2CXGDMatrix%2Cstring%2Cint"
+    title="saveBinary(handle: XGDMatrix; fname: string; silent: int = 1)">saveBinary,<wbr>XGDMatrix,<wbr>string,<wbr>int</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">nCol
@@ -172,13 +193,12 @@ function main() {
     title="newXGDMatrix(fname: string; silent: int = 1): XGDMatrix">newXGDMatrix,<wbr>string,<wbr>int</a></li>
   <li><a class="reference" href="#newXGDMatrix%2Cseq%5Bfloat32%5D%2Cint%2Cint%2Cfloat32"
     title="newXGDMatrix(data: seq[float32]; nRow, nCol: int;
-             missing: float32 = 0x7FF7FFFFFFFFFFFF&apos;f64.float32): XGDMatrix">newXGDMatrix,<wbr>seq[float32],<wbr>int,<wbr>int,<wbr>float32</a></li>
+             missing: float32 = DEFAULT_MISSING): XGDMatrix">newXGDMatrix,<wbr>seq[float32],<wbr>int,<wbr>int,<wbr>float32</a></li>
   <li><a class="reference" href="#newXGDMatrix%2Cseq%5Bfloat32%5D%2Cint%2Cfloat32"
-    title="newXGDMatrix(data: seq[float32]; nRow: int;
-             missing: float32 = 0x7FF7FFFFFFFFFFFF&apos;f64.float32): XGDMatrix">newXGDMatrix,<wbr>seq[float32],<wbr>int,<wbr>float32</a></li>
+    title="newXGDMatrix(data: seq[float32]; nRow: int; missing: float32 = DEFAULT_MISSING): XGDMatrix">newXGDMatrix,<wbr>seq[float32],<wbr>int,<wbr>float32</a></li>
   <li><a class="reference" href="#newXGDMatrix%2Cseq%5Barray%5BN%2Cfloat32%5D%5D%2Cfloat32"
     title="newXGDMatrix[N: static int](data: seq[array[N, float32]];
-                            missing: float32 = 0x7FF7FFFFFFFFFFFF&apos;f64.float32): XGDMatrix">newXGDMatrix,<wbr>seq[array[N,<wbr>float32]],<wbr>float32</a></li>
+                            missing: float32 = DEFAULT_MISSING): XGDMatrix">newXGDMatrix,<wbr>seq[array[N,<wbr>float32]],<wbr>float32</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">train
@@ -195,6 +215,11 @@ function main() {
   <ul class="simple nested-toc-section">getAttrNames
       <li><a class="reference" href="#getAttrNames%2CXGBooster"
     title="getAttrNames(b: XGBooster): seq[string]">getAttrNames,<wbr>XGBooster</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">getStrFeatureInfo
+      <li><a class="reference" href="#getStrFeatureInfo%2CXGDMatrix%2Cstring"
+    title="getStrFeatureInfo(handle: XGDMatrix; field: string): seq[string]">getStrFeatureInfo,<wbr>XGDMatrix,<wbr>string</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">saveModel
@@ -222,6 +247,11 @@ function main() {
   <ul class="simple nested-toc-section">update
       <li><a class="reference" href="#update%2CXGBooster%2Cint%2CXGDMatrix"
     title="update(b: XGBooster; iter: int; dtrain: XGDMatrix)">update,<wbr>XGBooster,<wbr>int,<wbr>XGDMatrix</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">getUIntInfo
+      <li><a class="reference" href="#getUIntInfo%2CXGDMatrix%2Cstring"
+    title="getUIntInfo(handle: XGDMatrix; field: string): seq[uint32]">getUIntInfo,<wbr>XGDMatrix,<wbr>string</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">slice
@@ -303,29 +333,29 @@ function main() {
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-libxgboost version
+Return the version of the XGBoost library being currently used. 
 
 </dd>
 <a id="xgbGetLastError_2"></a>
 <dt><pre><span class="Keyword">proc</span> <a href="#xgbGetLastError_2"><span class="Identifier">xgbGetLastError</span></a><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+get string message of the last error 
 
 </dd>
 <a id="xgbRegisterLogCallback,proc(string)"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#xgbRegisterLogCallback%2Cproc%28string%29"><span class="Identifier">xgbRegisterLogCallback</span></a><span class="Other">(</span><span class="Identifier">callback</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">a1</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">gcsafe</span></span><span class="Other">.}</span></span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+<dt><pre><span class="Keyword">proc</span> <a href="#xgbRegisterLogCallback%2Cproc%28string%29"><span class="Identifier">xgbRegisterLogCallback</span></a><span class="Other">(</span><span class="Identifier">callback</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">msg</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">gcsafe</span></span><span class="Other">.}</span></span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">Exception</span><span class="Other">,</span> <span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+register callback function for LOG(INFO) messages 
 
 </dd>
 <a id="xgbSetGlobalConfig,JsonNode"></a>
 <dt><pre><span class="Keyword">proc</span> <a href="#xgbSetGlobalConfig%2CJsonNode"><span class="Identifier">xgbSetGlobalConfig</span></a><span class="Other">(</span><span class="Identifier">json</span><span class="Other">:</span> <span class="Identifier">JsonNode</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+Set global configuration (collection of parameters that apply globally).
 
 </dd>
 <a id="xgbGetGlobalConfig"></a>
@@ -334,7 +364,7 @@ libxgboost version
                                       <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">WriteIOEffect</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+Get current global configuration (collection of parameters that apply globally). 
 
 </dd>
 <a id="newXGDMatrix,string,int"></a>
@@ -347,7 +377,7 @@ libxgboost version
 </dd>
 <a id="newXGDMatrix,seq[float32],int,int,float32"></a>
 <dt><pre><span class="Keyword">proc</span> <a href="#newXGDMatrix%2Cseq%5Bfloat32%5D%2Cint%2Cint%2Cfloat32"><span class="Identifier">newXGDMatrix</span></a><span class="Other">(</span><span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">nRow</span><span class="Other">,</span> <span class="Identifier">nCol</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span>
-                  <span class="Identifier">missing</span><span class="Other">:</span> <span class="Identifier">float32</span> <span class="Other">=</span> <span class="FloatNumber">0x7FF7FFFFFFFFFFFF'f64</span><span class="Other">.</span><span class="Identifier">float32</span><span class="Other">)</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+                  <span class="Identifier">missing</span><span class="Other">:</span> <span class="Identifier">float32</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_MISSING</span><span class="Other">)</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
@@ -356,7 +386,7 @@ libxgboost version
 </dd>
 <a id="newXGDMatrix,seq[float32],int,float32"></a>
 <dt><pre><span class="Keyword">proc</span> <a href="#newXGDMatrix%2Cseq%5Bfloat32%5D%2Cint%2Cfloat32"><span class="Identifier">newXGDMatrix</span></a><span class="Other">(</span><span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">nRow</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span>
-                  <span class="Identifier">missing</span><span class="Other">:</span> <span class="Identifier">float32</span> <span class="Other">=</span> <span class="FloatNumber">0x7FF7FFFFFFFFFFFF'f64</span><span class="Other">.</span><span class="Identifier">float32</span><span class="Other">)</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+                  <span class="Identifier">missing</span><span class="Other">:</span> <span class="Identifier">float32</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_MISSING</span><span class="Other">)</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
@@ -364,7 +394,8 @@ libxgboost version
 
 </dd>
 <a id="newXGDMatrix,seq[array[N,float32]],float32"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#newXGDMatrix%2Cseq%5Barray%5BN%2Cfloat32%5D%5D%2Cfloat32"><span class="Identifier">newXGDMatrix</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Identifier">static</span> <span class="Identifier">int</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">array</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">float32</span><span class="Other">]</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">missing</span><span class="Other">:</span> <span class="Identifier">float32</span> <span class="Other">=</span> <span class="FloatNumber">0x7FF7FFFFFFFFFFFF'f64</span><span class="Other">.</span><span class="Identifier">float32</span><span class="Other">)</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a></pre></dt>
+<dt><pre><span class="Keyword">proc</span> <a href="#newXGDMatrix%2Cseq%5Barray%5BN%2Cfloat32%5D%5D%2Cfloat32"><span class="Identifier">newXGDMatrix</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">:</span> <span class="Identifier">static</span> <span class="Identifier">int</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">array</span><span class="Other">[</span><span class="Identifier">N</span><span class="Other">,</span> <span class="Identifier">float32</span><span class="Other">]</span><span class="Other">]</span><span class="Other">;</span>
+                                 <span class="Identifier">missing</span><span class="Other">:</span> <span class="Identifier">float32</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_MISSING</span><span class="Other">)</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a></pre></dt>
 <dd>
 
 
@@ -374,14 +405,14 @@ libxgboost version
 <dt><pre><span class="Keyword">proc</span> <a href="#nRow%2CXGDMatrix"><span class="Identifier">nRow</span></a><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+get number of rows. 
 
 </dd>
 <a id="nCol,XGDMatrix"></a>
 <dt><pre><span class="Keyword">proc</span> <a href="#nCol%2CXGDMatrix"><span class="Identifier">nCol</span></a><span class="Other">(</span><span class="Identifier">m</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+get number of columns 
 
 </dd>
 <a id="slice,XGDMatrix,seq[int]"></a>
@@ -389,7 +420,63 @@ libxgboost version
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
+create a new dmatrix from sliced content of existing matrix 
 
+</dd>
+<a id="setInfo,XGDMatrix,string,seq[float32]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Bfloat32%5D"><span class="Identifier">setInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+set float vector to a content in info 
+
+</dd>
+<a id="setInfo,XGDMatrix,string,seq[uint32]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Buint32%5D"><span class="Identifier">setInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">uint32</span><span class="Other">]</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+set uint32 vector to a content in info 
+
+</dd>
+<a id="setInfo,XGDMatrix,string,seq[string]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Bstring%5D"><span class="Identifier">setInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Set string encoded information of all features. 
+
+</dd>
+<a id="saveBinary,XGDMatrix,string,int"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#saveBinary%2CXGDMatrix%2Cstring%2Cint"><span class="Identifier">saveBinary</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">fname</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">silent</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">=</span> <span class="DecNumber">1</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+load a data matrix into binary file 
+
+</dd>
+<a id="getFloatInfo,XGDMatrix,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#getFloatInfo%2CXGDMatrix%2Cstring"><span class="Identifier">getFloatInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+get float info vector from matrix. 
+
+</dd>
+<a id="getUIntInfo,XGDMatrix,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#getUIntInfo%2CXGDMatrix%2Cstring"><span class="Identifier">getUIntInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">uint32</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+get uint32 info vector from matrix 
+
+</dd>
+<a id="getStrFeatureInfo,XGDMatrix,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#getStrFeatureInfo%2CXGDMatrix%2Cstring"><span class="Identifier">getStrFeatureInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Get string encoded information of all features. 
 
 </dd>
 <a id="finalize,XGBooster"></a>
@@ -411,7 +498,7 @@ libxgboost version
 <dt><pre><span class="Keyword">proc</span> <a href="#setParam%2CXGBooster%2Cstring%2Cstring"><span class="Identifier">setParam</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">,</span> <span class="Identifier">value</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+set parameters 
 
 </dd>
 <a id="setParam,XGBooster,openArray[]"></a>
@@ -419,7 +506,7 @@ libxgboost version
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+set parameters 
 
 </dd>
 <a id="update,XGBooster,int,XGDMatrix"></a>
@@ -427,7 +514,7 @@ libxgboost version
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+update the model in one round using dtrain 
 
 </dd>
 <a id="eval,XGBooster,int,openArray[]"></a>
@@ -435,7 +522,7 @@ libxgboost version
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+get evaluation statistics for xgboost 
 
 </dd>
 <a id="train,openArray[],XGDMatrix,int,openArray[]"></a>
@@ -444,7 +531,7 @@ libxgboost version
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+Train booster.
 
 </dd>
 <a id="predict,XGBooster,XGDMatrix"></a>
@@ -452,21 +539,29 @@ libxgboost version
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
+Make prediction from DMatrix.
 
+</dd>
+<a id="predict,XGBooster,seq[float32],float32"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#predict%2CXGBooster%2Cseq%5Bfloat32%5D%2Cfloat32"><span class="Identifier">predict</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">missing</span><span class="Other">:</span> <span class="Identifier">float32</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_MISSING</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float32</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Make prediction from single row.
 
 </dd>
 <a id="saveModel,XGBooster,string"></a>
 <dt><pre><span class="Keyword">proc</span> <a href="#saveModel%2CXGBooster%2Cstring"><span class="Identifier">saveModel</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">fname</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+Save model into existing file. 
 
 </dd>
 <a id="loadModel,XGBooster,string"></a>
 <dt><pre><span class="Keyword">proc</span> <a href="#loadModel%2CXGBooster%2Cstring"><span class="Identifier">loadModel</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">fname</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+Load model from existing file. 
 
 </dd>
 <a id="getAttr,XGBooster,string"></a>
@@ -474,7 +569,7 @@ libxgboost version
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+Get string attribute from Booster. 
 
 </dd>
 <a id="setAttr,XGBooster,string,string"></a>
@@ -506,7 +601,7 @@ Get the names of all attribute from Booster.
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2021-04-22 04:44:42 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2021-04-22 13:17:17 UTC</small>
       </div>
     </div>
   </div>

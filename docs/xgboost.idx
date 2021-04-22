@@ -4,16 +4,23 @@ XGDevice	xgboost.html#XGDevice	xgboost: XGDevice
 XGBooster	xgboost.html#XGBooster	xgboost: XGBooster	
 xgbVersion	xgboost.html#xgbVersion	xgboost: xgbVersion(): tuple[major: int, minor: int, patch: int]	
 xgbGetLastError	xgboost.html#xgbGetLastError_2	xgboost: xgbGetLastError(): string	
-xgbRegisterLogCallback	xgboost.html#xgbRegisterLogCallback,proc(string)	xgboost: xgbRegisterLogCallback(callback: proc (a1: string) {.gcsafe.})	
+xgbRegisterLogCallback	xgboost.html#xgbRegisterLogCallback,proc(string)	xgboost: xgbRegisterLogCallback(callback: proc (msg: string) {.gcsafe.})	
 xgbSetGlobalConfig	xgboost.html#xgbSetGlobalConfig,JsonNode	xgboost: xgbSetGlobalConfig(json: JsonNode)	
 xgbGetGlobalConfig	xgboost.html#xgbGetGlobalConfig	xgboost: xgbGetGlobalConfig(): JsonNode	
 newXGDMatrix	xgboost.html#newXGDMatrix,string,int	xgboost: newXGDMatrix(fname: string; silent: int = 1): XGDMatrix	
-newXGDMatrix	xgboost.html#newXGDMatrix,seq[float32],int,int,float32	xgboost: newXGDMatrix(data: seq[float32]; nRow, nCol: int;\n             missing: float32 = 0x7FF7FFFFFFFFFFFF&apos;f64.float32): XGDMatrix	
-newXGDMatrix	xgboost.html#newXGDMatrix,seq[float32],int,float32	xgboost: newXGDMatrix(data: seq[float32]; nRow: int;\n             missing: float32 = 0x7FF7FFFFFFFFFFFF&apos;f64.float32): XGDMatrix	
-newXGDMatrix	xgboost.html#newXGDMatrix,seq[array[N,float32]],float32	xgboost: newXGDMatrix[N: static int](data: seq[array[N, float32]];\n                            missing: float32 = 0x7FF7FFFFFFFFFFFF&apos;f64.float32): XGDMatrix	
+newXGDMatrix	xgboost.html#newXGDMatrix,seq[float32],int,int,float32	xgboost: newXGDMatrix(data: seq[float32]; nRow, nCol: int;\n             missing: float32 = DEFAULT_MISSING): XGDMatrix	
+newXGDMatrix	xgboost.html#newXGDMatrix,seq[float32],int,float32	xgboost: newXGDMatrix(data: seq[float32]; nRow: int; missing: float32 = DEFAULT_MISSING): XGDMatrix	
+newXGDMatrix	xgboost.html#newXGDMatrix,seq[array[N,float32]],float32	xgboost: newXGDMatrix[N: static int](data: seq[array[N, float32]];\n                            missing: float32 = DEFAULT_MISSING): XGDMatrix	
 nRow	xgboost.html#nRow,XGDMatrix	xgboost: nRow(m: XGDMatrix): int	
 nCol	xgboost.html#nCol,XGDMatrix	xgboost: nCol(m: XGDMatrix): int	
 slice	xgboost.html#slice,XGDMatrix,seq[int]	xgboost: slice(handle: XGDMatrix; idx: seq[int]): XGDMatrix	
+setInfo	xgboost.html#setInfo,XGDMatrix,string,seq[float32]	xgboost: setInfo(handle: XGDMatrix; field: string; arr: seq[float32])	
+setInfo	xgboost.html#setInfo,XGDMatrix,string,seq[uint32]	xgboost: setInfo(handle: XGDMatrix; field: string; arr: seq[uint32])	
+setInfo	xgboost.html#setInfo,XGDMatrix,string,seq[string]	xgboost: setInfo(handle: XGDMatrix; field: string; arr: seq[string])	
+saveBinary	xgboost.html#saveBinary,XGDMatrix,string,int	xgboost: saveBinary(handle: XGDMatrix; fname: string; silent: int = 1)	
+getFloatInfo	xgboost.html#getFloatInfo,XGDMatrix,string	xgboost: getFloatInfo(handle: XGDMatrix; field: string): seq[float32]	
+getUIntInfo	xgboost.html#getUIntInfo,XGDMatrix,string	xgboost: getUIntInfo(handle: XGDMatrix; field: string): seq[uint32]	
+getStrFeatureInfo	xgboost.html#getStrFeatureInfo,XGDMatrix,string	xgboost: getStrFeatureInfo(handle: XGDMatrix; field: string): seq[string]	
 finalize	xgboost.html#finalize,XGBooster	xgboost: finalize(b: XGBooster)	
 newXGBooster	xgboost.html#newXGBooster,seq[XGDMatrix]	xgboost: newXGBooster(toCaches: seq[XGDMatrix] = @[]): XGBooster	
 setParam	xgboost.html#setParam,XGBooster,string,string	xgboost: setParam(b: XGBooster; name, value: string)	
@@ -22,6 +29,7 @@ update	xgboost.html#update,XGBooster,int,XGDMatrix	xgboost: update(b: XGBooster;
 eval	xgboost.html#eval,XGBooster,int,openArray[]	xgboost: eval(b: XGBooster; iter: int; dmats: openArray[(string, XGDMatrix)]): string	
 train	xgboost.html#train,openArray[],XGDMatrix,int,openArray[]	xgboost: train(params: openArray[(string, string)]; dtrain: XGDMatrix;\n      num_boost_round: int = 10; evals: openArray[(string, XGDMatrix)] = []): XGBooster	
 predict	xgboost.html#predict,XGBooster,XGDMatrix	xgboost: predict(b: XGBooster; m: XGDMatrix): seq[float32]	
+predict	xgboost.html#predict,XGBooster,seq[float32],float32	xgboost: predict(b: XGBooster; v: seq[float32]; missing: float32 = DEFAULT_MISSING): float32	
 saveModel	xgboost.html#saveModel,XGBooster,string	xgboost: saveModel(b: XGBooster; fname: string)	
 loadModel	xgboost.html#loadModel,XGBooster,string	xgboost: loadModel(b: XGBooster; fname: string)	
 getAttr	xgboost.html#getAttr,XGBooster,string	xgboost: getAttr(b: XGBooster; key: string): Option[string]	

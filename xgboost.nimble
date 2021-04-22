@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.1"
+version       = "0.1.2"
 author        = "Jack Tang"
 description   = "Nim wrapper for libxgboost"
 license       = "MIT"
