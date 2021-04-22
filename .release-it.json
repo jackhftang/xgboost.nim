@@ -12,7 +12,7 @@
     "after:bump": [
       "nimble test",
       "nimble version ${version}",
-      "nimble docgen"
+      "nimble gendoc"
     ]
   }
 }
