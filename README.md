@@ -2,14 +2,32 @@
 
 Nim binding of [xgboost 1.4.x](https://github.com/dmlc/xgboost/tree/v1.4.1)
 
+## Installation
+
+This binding depends on the shared library of xgboost. You should be able to build it with the following commands.
+
+```sh
+nimble clone_xgboost
+nimble build_xgboost
+```
+
+The resulting shared library should be located in `./xgboost/lib/`.
+If you encouter issues during build, consult the installation guide of xgboost.
+
 ## Usage
 
 ```nim
 import xgboost
 
 proc main() =
-  let dtrain = newXGDMatrix("agaricus.txt.train", silent=0)
-  let dtest = newXGDMatrix("agaricus.txt.test", silent=0)
+  # global config
+  xgbSetGlobalConfig(%*{
+    "verbosity": 3
+  })
+
+  # https://github.com/dmlc/xgboost/tree/master/demo/data
+  let dtrain = newXGDMatrix("agaricus.txt.train")
+  let dtest = newXGDMatrix("agaricus.txt.test")
   
   # train
   let booster = train({
@@ -22,7 +40,7 @@ proc main() =
   let res = booster.predict(dtest)
   echo res
 
-  # save
+  # save model
   booster.saveModel("agaricus.txt.model")
 
 when isMainModule:
