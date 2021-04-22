@@ -29,3 +29,6 @@ when isMainModule:
   main()
 ```
 
+## API
+
+see [here](https://jackhftang.github.io/xgboost.nim/)
