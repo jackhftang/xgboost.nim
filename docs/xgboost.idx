@@ -1,0 +1,24 @@
+XGError	xgboost.html#XGError	xgboost: XGError	
+XGDMatrix	xgboost.html#XGDMatrix	xgboost: XGDMatrix	
+XGDevice	xgboost.html#XGDevice	xgboost: XGDevice	
+XGBooster	xgboost.html#XGBooster	xgboost: XGBooster	
+xgbVersion	xgboost.html#xgbVersion	xgboost: xgbVersion(): tuple[major: int, minor: int, patch: int]	
+xgbGetLastError	xgboost.html#xgbGetLastError_2	xgboost: xgbGetLastError(): string	
+xgbRegisterLogCallback	xgboost.html#xgbRegisterLogCallback,proc(string)	xgboost: xgbRegisterLogCallback(callback: proc (a1: string) {.gcsafe.})	
+xgbSetGlobalConfig	xgboost.html#xgbSetGlobalConfig,JsonNode	xgboost: xgbSetGlobalConfig(json: JsonNode)	
+xgbGetGlobalConfig	xgboost.html#xgbGetGlobalConfig	xgboost: xgbGetGlobalConfig(): JsonNode	
+newXGDMatrix	xgboost.html#newXGDMatrix,string,int	xgboost: newXGDMatrix(fname: string; silent: int = 1): XGDMatrix	
+newXGDMatrix	xgboost.html#newXGDMatrix,seq[float32],int,int,float32	xgboost: newXGDMatrix(data: seq[float32]; nRow, nCol: int;\n             missing: float32 = 0x7FF7FFFFFFFFFFFF&apos;f64.float32): XGDMatrix	
+newXGDMatrix	xgboost.html#newXGDMatrix,seq[float32],int,float32	xgboost: newXGDMatrix(data: seq[float32]; nRow: int;\n             missing: float32 = 0x7FF7FFFFFFFFFFFF&apos;f64.float32): XGDMatrix	
+newXGDMatrix	xgboost.html#newXGDMatrix,seq[array[N,float32]],float32	xgboost: newXGDMatrix[N: static int](data: seq[array[N, float32]];\n                            missing: float32 = 0x7FF7FFFFFFFFFFFF&apos;f64.float32): XGDMatrix	
+nRow	xgboost.html#nRow,XGDMatrix	xgboost: nRow(m: XGDMatrix): int	
+nCol	xgboost.html#nCol,XGDMatrix	xgboost: nCol(m: XGDMatrix): int	
+slice	xgboost.html#slice,XGDMatrix,seq[int]	xgboost: slice(handle: XGDMatrix; idx: seq[int]): XGDMatrix	
+finalize	xgboost.html#finalize,XGBooster	xgboost: finalize(b: XGBooster)	
+newXGBooster	xgboost.html#newXGBooster,seq[XGDMatrix]	xgboost: newXGBooster(toCaches: seq[XGDMatrix] = @[]): XGBooster	
+setParam	xgboost.html#setParam,XGBooster,string,string	xgboost: setParam(b: XGBooster; name, value: string)	
+setParam	xgboost.html#setParam,XGBooster,openArray[]	xgboost: setParam(b: XGBooster; pairs: openArray[(string, string)])	
+update	xgboost.html#update,XGBooster,int,XGDMatrix	xgboost: update(b: XGBooster; iter: int; dtrain: XGDMatrix)	
+eval	xgboost.html#eval,XGBooster,int,openArray[]	xgboost: eval(b: XGBooster; iter: int; dmats: openArray[(string, XGDMatrix)]): string	
+train	xgboost.html#train,openArray[],XGDMatrix,int,openArray[]	xgboost: train(params: openArray[(string, string)]; dtrain: XGDMatrix;\n      num_boost_round: int = 10; evals: openArray[(string, XGDMatrix)] = []): XGBooster	
+predict	xgboost.html#predict,XGBooster,XGDMatrix	xgboost: predict(b: XGBooster; m: XGDMatrix): seq[float32]	

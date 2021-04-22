@@ -1,6 +1,6 @@
 # xgboost.nim 
 
-Nim wrapper for libxgboost 1.4.x
+Nim binding of [xgboost 1.4.x](https://github.com/dmlc/xgboost/tree/v1.4.1)
 
 ## Usage
 
