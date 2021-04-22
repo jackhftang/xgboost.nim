@@ -1,5 +1,6 @@
-import ../src/xgboost
+import xgboost
 import json
+import options
 import strformat
 
 proc main() =
@@ -32,8 +33,10 @@ proc main() =
   })
 
   # predict
-  let res = booster.predict(dtest)
-  echo res
+  echo booster.predict(dtest)
+
+  # save model
+  booster.saveModel("agaricus.txt.model")
 
 when isMainModule:
   main()

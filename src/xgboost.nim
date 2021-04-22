@@ -1,5 +1,6 @@
 import xgboost/libxgboost
 import json
+import options
 import sequtils
 import strformat
 
@@ -138,7 +139,7 @@ proc update*(b: XGBooster, iter: int, dtrain: XGDMatrix) =
 proc eval*(b: XGBooster, iter: int, dmats: openArray[(string, XGDMatrix)]): string = 
   var ms = dmats.mapIt(it[1].self)
   var ns = dmats.mapIt(it[0].cstring)
-  var outResult: ptr char
+  var outResult: cstring
   check: XGBoosterEvalOneIter(
     b.self,
     iter.cint,
@@ -147,14 +148,7 @@ proc eval*(b: XGBooster, iter: int, dmats: openArray[(string, XGDMatrix)]): stri
     dmats.len.uint64,
     cast[cstringArray](outResult.addr)
   )  
-
-  # copy output message, at most 4k bytes just in case no '\0'
-  var i: int
-  while i < 4 * 1024:
-    let c = cast[ptr char](cast[ByteAddress](outResult) +% i.int * sizeof(char))[]
-    if c == '\0': break
-    result.add c
-    i.inc
+  result = $outResult
 
 proc train*(
   params: openArray[(string, string)], 
@@ -210,24 +204,40 @@ proc predict*(
   for i in 0 ..< size:
     result[i] = cast[ptr float32](cast[ByteAddress](outResultPtr) +% i.int * sizeof(float32))[]
 
-# proc loadModel()
-# saveModel()
+proc saveModel*(b: XGBooster, fname: string) =
+  check: XGBoosterSaveModel(b.self, fname)
 
-# getModelRaw()
+proc loadModel*(b: XGBooster, fname: string) = 
+  check: XGBoosterLoadModel(b.self, fname)
 
+proc getAttr*(b: XGBooster, key: string): Option[string] = 
+  var outResult: cstring
+  var success: cint
+  check: XGBoosterGetAttr(b.self, key, cast[cstringArray](outResult.addr), success.addr)
+  if success == 0: return none[string]()
+  return some($outResult)
+
+proc setAttr*(b: XGBooster, key, value: string) = 
+  ## Set or delete string attribute. 
+  check: XGBoosterSetAttr(b.self, key, value)
+
+proc getAttrNames*(b: XGBooster): seq[string] = 
+  ## Get the names of all attribute from Booster. 
+  var outLen: uint64
+  var outResult: ptr cstring
+  check: XGBoosterGetAttrNames(b.self, outLen.addr, cast[ptr cstringArray](outResult.addr))
+  result = newSeq[string](outLen.int)
+  for i in 0 ..< outLen:
+    var ptrChar = cast[ptr cstring](cast[ByteAddress](outResult) +% i.int * sizeof(cstring))[]
+    result[i] = $ptrChar
+
+# proc loadModelFromBuffer
+# slice
 # serialize
 # unserialize
 # saveJsonConfig
 # loadJsonConfig
-
 # dumpModel
-
-# getAttr
-# setAtrr
-# getAttrNames
-
-# slice
-
 
 
 
