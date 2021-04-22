@@ -22,6 +22,9 @@ proc main() =
   let res = booster.predict(dtest)
   echo res
 
+  # save
+  booster.saveModel("agaricus.txt.model")
+
 when isMainModule:
   main()
 ```
