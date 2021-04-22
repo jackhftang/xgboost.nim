@@ -6,6 +6,9 @@ import strformat
 
 export libxgboost
 
+# or NaN.float32 ? 
+const DEFAULT_MISSING* = 0.0f32
+
 type
   XGError* = object of CatchableError
     returnCode*: int
@@ -60,7 +63,7 @@ proc newXGDMatrix*(fname: string, silent: int = 1): XGDMatrix =
   result.new(finalize)
   check: XGDMatrixCreateFromFile(fname, silent.cint, result.self.addr)
 
-proc newXGDMatrix*(data: seq[float32], nRow, nCol: int, missing: float32 = NaN.float32): XGDMatrix =
+proc newXGDMatrix*(data: seq[float32], nRow, nCol: int, missing: float32 = DEFAULT_MISSING): XGDMatrix =
   if data.len != nRow * nCol:
     raise newException(XGError, fmt"invalid length of data data.len={data.len} nRow={nRow} nCol={nCol}")
 
@@ -77,18 +80,21 @@ proc newXGDMatrix*(data: seq[float32], nRow, nCol: int, missing: float32 = NaN.f
     result.self.addr
   )
 
-proc newXGDMatrix*(data: seq[float32], nRow: int, missing: float32 = NaN.float32): XGDMatrix =
+proc newXGDMatrix*(data: seq[float32], nRow: int, missing: float32 = DEFAULT_MISSING): XGDMatrix =
   let nCol = data.len div nRow
   if nCol * nRow != data.len:
     raise newException(XGError, fmt"invalid length of data data.len={data.len} nRow={nRow}")
   result = newXGDMatrix(data, nRow, nCol, missing)
 
-proc newXGDMatrix*[N: static int](data: seq[array[N, float32]], missing: float32 = NaN.float32): XGDMatrix =
-  let nRow = N
-  let nCol = data.len div nRow
-  if nCol * nRow != data.len:
-    raise newException(XGError, fmt"invalid length of data data.len={data.len} nRow={nRow}")
-  result = newXGDMatrix(data, nRow, nCol, missing)
+proc newXGDMatrix*[N: static int](data: seq[array[N, float32]], missing: float32 = DEFAULT_MISSING): XGDMatrix =
+  let nRow = data.len
+  let nCol = N
+  # todo: use iterator, not copy
+  var copy = newSeq[float32](nCol*nRow)
+  for i in 0 ..< nRow:
+    for j in 0 ..< nCol:
+      copy[i * nCol + j] = data[i][j]
+  result = newXGDMatrix(copy, nRow, nCol, missing)
 
 proc nRow*(m: XGDMatrix): int =
   var tmp: uint64
@@ -203,6 +209,11 @@ proc predict*(
   result = newSeq[float32](size)
   for i in 0 ..< size:
     result[i] = cast[ptr float32](cast[ByteAddress](outResultPtr) +% i.int * sizeof(float32))[]
+
+proc predict*(b: XGBooster, v: seq[float32], missing: float32 = DEFAULT_MISSING): float32 =
+  let m = newXGDMatrix(v, 1, v.len, missing)
+  let res = b.predict(m)
+  result = res[0]
 
 proc saveModel*(b: XGBooster, fname: string) =
   check: XGBoosterSaveModel(b.self, fname)
