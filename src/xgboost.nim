@@ -6,8 +6,8 @@ import strformat
 
 export libxgboost
 
-# or NaN.float32 ? 
-const DEFAULT_MISSING* = 0.0f32
+# const DEFAULT_MISSING = 0.0f32
+const DEFAULT_MISSING = NaN.float32
 
 type
   XGError* = object of CatchableError
