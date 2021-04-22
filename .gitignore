@@ -1,0 +1,6 @@
+xgboost
+var
+
+# test data
+agaricus.txt.test
+agaricus.txt.train
