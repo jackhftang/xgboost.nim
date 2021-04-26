@@ -91,7 +91,8 @@ function main() {
     </select>
   </div>
   <ul class="simple simple-toc" id="toc-list">
-<li>
+<ul class="simple"><li><a class="reference" id="make-prediction-from-single-rowdot-output-seq-float32-dot-useful-for-multicolonsoftprob_toc" href="#make-prediction-from-single-rowdot-output-seq-float32-dot-useful-for-multicolonsoftprob">Make prediction from single row. Output seq[float32]. Useful for multi:softprob</a></li>
+</ul><li>
   <a class="reference reference-toplevel" href="#6" id="56">Imports</a>
   <ul class="simple simple-toc-section">
     
@@ -100,7 +101,12 @@ function main() {
 <li>
   <a class="reference reference-toplevel" href="#7" id="57">Types</a>
   <ul class="simple simple-toc-section">
-      <li><a class="reference" href="#XGError"
+      <li><a class="reference" href="#XGDMatrixInfoKey"
+    title="XGDMatrixInfoKey = enum
+  label = &quot;label&quot;, weight = &quot;weight&quot;, baseMargin = &quot;base_margin&quot;,
+  group = &quot;group&quot;, qid = &quot;qid&quot;, labelLowerBound = &quot;label_lower_bound&quot;,
+  labelUpperBound = &quot;label_upper_bound&quot;, featureWeights = &quot;feature_weights&quot;">XGDMatrixInfoKey</a></li>
+  <li><a class="reference" href="#XGError"
     title="XGError = object of CatchableError
   returnCode*: int">XGError</a></li>
   <li><a class="reference" href="#XGDMatrix"
@@ -128,12 +134,12 @@ function main() {
 
   </ul>
   <ul class="simple nested-toc-section">setInfo
-      <li><a class="reference" href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Bfloat32%5D"
-    title="setInfo(handle: XGDMatrix; field: string; arr: seq[float32])">setInfo,<wbr>XGDMatrix,<wbr>string,<wbr>seq[float32]</a></li>
-  <li><a class="reference" href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Buint32%5D"
-    title="setInfo(handle: XGDMatrix; field: string; arr: seq[uint32])">setInfo,<wbr>XGDMatrix,<wbr>string,<wbr>seq[uint32]</a></li>
-  <li><a class="reference" href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Bstring%5D"
-    title="setInfo(handle: XGDMatrix; field: string; arr: seq[string])">setInfo,<wbr>XGDMatrix,<wbr>string,<wbr>seq[string]</a></li>
+      <li><a class="reference" href="#setInfo%2CXGDMatrix%2C%2Cseq%5Bfloat32%5D"
+    title="setInfo(handle: XGDMatrix; field: XGDMatrixInfoKey | string; arr: seq[float32])">setInfo,<wbr>XGDMatrix,<wbr>,<wbr>seq[float32]</a></li>
+  <li><a class="reference" href="#setInfo%2CXGDMatrix%2C%2Cseq%5Buint32%5D"
+    title="setInfo(handle: XGDMatrix; field: XGDMatrixInfoKey | string; arr: seq[uint32])">setInfo,<wbr>XGDMatrix,<wbr>,<wbr>seq[uint32]</a></li>
+  <li><a class="reference" href="#setInfo%2CXGDMatrix%2C%2Cseq%5Bstring%5D"
+    title="setInfo(handle: XGDMatrix; field: XGDMatrixInfoKey | string; arr: seq[string])">setInfo,<wbr>XGDMatrix,<wbr>,<wbr>seq[string]</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">getAttr
@@ -217,6 +223,14 @@ function main() {
     title="getAttrNames(b: XGBooster): seq[string]">getAttrNames,<wbr>XGBooster</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">predictSeq
+      <li><a class="reference" href="#predictSeq%2CXGBooster%2CXGDMatrix"
+    title="predictSeq(b: XGBooster; m: XGDMatrix): seq[seq[float32]]">predictSeq,<wbr>XGBooster,<wbr>XGDMatrix</a></li>
+  <li><a class="reference" href="#predictSeq%2CXGBooster%2Cseq%5Bfloat32%5D%2Cfloat32"
+    title="predictSeq(b: XGBooster; v: seq[float32]; missing: float32 = DEFAULT_MISSING): seq[
+    float32]">predictSeq,<wbr>XGBooster,<wbr>seq[float32],<wbr>float32</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">getStrFeatureInfo
       <li><a class="reference" href="#getStrFeatureInfo%2CXGDMatrix%2Cstring"
     title="getStrFeatureInfo(handle: XGDMatrix; field: string): seq[string]">getStrFeatureInfo,<wbr>XGDMatrix,<wbr>string</a></li>
@@ -289,6 +303,16 @@ function main() {
 <div class="section" id="7">
 <h1><a class="toc-backref" href="#7">Types</a></h1>
 <dl class="item">
+<a id="XGDMatrixInfoKey"></a>
+<dt><pre><a href="xgboost.html#XGDMatrixInfoKey"><span class="Identifier">XGDMatrixInfoKey</span></a> <span class="Other">=</span> <span class="Keyword">enum</span>
+  <span class="Identifier">label</span> <span class="Other">=</span> <span class="StringLit">&quot;label&quot;</span><span class="Other">,</span> <span class="Identifier">weight</span> <span class="Other">=</span> <span class="StringLit">&quot;weight&quot;</span><span class="Other">,</span> <span class="Identifier">baseMargin</span> <span class="Other">=</span> <span class="StringLit">&quot;base_margin&quot;</span><span class="Other">,</span>
+  <span class="Identifier">group</span> <span class="Other">=</span> <span class="StringLit">&quot;group&quot;</span><span class="Other">,</span> <span class="Identifier">qid</span> <span class="Other">=</span> <span class="StringLit">&quot;qid&quot;</span><span class="Other">,</span> <span class="Identifier">labelLowerBound</span> <span class="Other">=</span> <span class="StringLit">&quot;label_lower_bound&quot;</span><span class="Other">,</span>
+  <span class="Identifier">labelUpperBound</span> <span class="Other">=</span> <span class="StringLit">&quot;label_upper_bound&quot;</span><span class="Other">,</span> <span class="Identifier">featureWeights</span> <span class="Other">=</span> <span class="StringLit">&quot;feature_weights&quot;</span></pre></dt>
+<dd>
+
+
+
+</dd>
 <a id="XGError"></a>
 <dt><pre><a href="xgboost.html#XGError"><span class="Identifier">XGError</span></a> <span class="Other">=</span> <span class="Keyword">object</span> <span class="Keyword">of</span> <span class="Identifier">CatchableError</span>
   <span class="Identifier">returnCode</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">int</span>
@@ -372,7 +396,7 @@ Get current global configuration (collection of parameters that apply globally).
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+load a data matrix 
 
 </dd>
 <a id="newXGDMatrix,seq[float32],int,int,float32"></a>
@@ -381,7 +405,7 @@ Get current global configuration (collection of parameters that apply globally).
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+create matrix content from dense matrix.
 
 </dd>
 <a id="newXGDMatrix,seq[float32],int,float32"></a>
@@ -390,7 +414,7 @@ Get current global configuration (collection of parameters that apply globally).
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
+create matrix content from dense matrix. <tt class="docutils literal"><span class="pre">nCol</span></tt> is automatically derived. 
 
 </dd>
 <a id="newXGDMatrix,seq[array[N,float32]],float32"></a>
@@ -398,6 +422,8 @@ Get current global configuration (collection of parameters that apply globally).
                                  <span class="Identifier">missing</span><span class="Other">:</span> <span class="Identifier">float32</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_MISSING</span><span class="Other">)</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a></pre></dt>
 <dd>
 
+<p>create matrix content from dense matrix.</p>
+<p>This procedure internally covert seq[array[N, float32]] to seq[float32] and call other newXGDMatrix. If memory usage is a concern, directly use other newXGDMatrix.</p>
 
 
 </dd>
@@ -423,25 +449,25 @@ get number of columns
 create a new dmatrix from sliced content of existing matrix 
 
 </dd>
-<a id="setInfo,XGDMatrix,string,seq[float32]"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Bfloat32%5D"><span class="Identifier">setInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<a id="setInfo,XGDMatrix,,seq[float32]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#setInfo%2CXGDMatrix%2C%2Cseq%5Bfloat32%5D"><span class="Identifier">setInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrixInfoKey"><span class="Identifier">XGDMatrixInfoKey</span></a> <span class="Operator">|</span> <span class="Identifier">string</span><span class="Other">;</span>
+             <span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span><span class="Other">)</span></pre></dt>
 <dd>
 
 set float vector to a content in info 
 
 </dd>
-<a id="setInfo,XGDMatrix,string,seq[uint32]"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Buint32%5D"><span class="Identifier">setInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">uint32</span><span class="Other">]</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<a id="setInfo,XGDMatrix,,seq[uint32]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#setInfo%2CXGDMatrix%2C%2Cseq%5Buint32%5D"><span class="Identifier">setInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrixInfoKey"><span class="Identifier">XGDMatrixInfoKey</span></a> <span class="Operator">|</span> <span class="Identifier">string</span><span class="Other">;</span>
+             <span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">uint32</span><span class="Other">]</span><span class="Other">)</span></pre></dt>
 <dd>
 
 set uint32 vector to a content in info 
 
 </dd>
-<a id="setInfo,XGDMatrix,string,seq[string]"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#setInfo%2CXGDMatrix%2Cstring%2Cseq%5Bstring%5D"><span class="Identifier">setInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<a id="setInfo,XGDMatrix,,seq[string]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#setInfo%2CXGDMatrix%2C%2Cseq%5Bstring%5D"><span class="Identifier">setInfo</span></a><span class="Other">(</span><span class="Identifier">handle</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">;</span> <span class="Identifier">field</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrixInfoKey"><span class="Identifier">XGDMatrixInfoKey</span></a> <span class="Operator">|</span> <span class="Identifier">string</span><span class="Other">;</span>
+             <span class="Identifier">arr</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span><span class="Other">)</span></pre></dt>
 <dd>
 
 Set string encoded information of all features. 
@@ -550,6 +576,24 @@ Make prediction from DMatrix.
 Make prediction from single row.
 
 </dd>
+<a id="predictSeq,XGBooster,XGDMatrix"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#predictSeq%2CXGBooster%2CXGDMatrix"><span class="Identifier">predictSeq</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">m</span><span class="Other">:</span> <a href="xgboost.html#XGDMatrix"><span class="Identifier">XGDMatrix</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Make prediction from DMatrix. Output seq[float32]. Useful for multi:softprob
+
+</dd>
+<a id="predictSeq,XGBooster,seq[float32],float32"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#predictSeq%2CXGBooster%2Cseq%5Bfloat32%5D%2Cfloat32"><span class="Identifier">predictSeq</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span><span class="Other">;</span>
+                <span class="Identifier">missing</span><span class="Other">:</span> <span class="Identifier">float32</span> <span class="Other">=</span> <span class="Identifier">DEFAULT_MISSING</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+<h2><a class="toc-backref" id="make-prediction-from-single-rowdot-output-seq-float32-dot-useful-for-multicolonsoftprob" href="#make-prediction-from-single-rowdot-output-seq-float32-dot-useful-for-multicolonsoftprob">Make prediction from single row. Output seq[float32]. Useful for multi:softprob</a></h2>
+
+</dd>
 <a id="saveModel,XGBooster,string"></a>
 <dt><pre><span class="Keyword">proc</span> <a href="#saveModel%2CXGBooster%2Cstring"><span class="Identifier">saveModel</span></a><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="xgboost.html#XGBooster"><span class="Identifier">XGBooster</span></a><span class="Other">;</span> <span class="Identifier">fname</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">XGError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
@@ -601,7 +645,7 @@ Get the names of all attribute from Booster.
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2021-04-22 13:17:17 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2021-04-26 04:40:55 UTC</small>
       </div>
     </div>
   </div>

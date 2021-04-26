@@ -1,3 +1,12 @@
+label	xgboost.html#label	XGDMatrixInfoKey.label	
+weight	xgboost.html#weight	XGDMatrixInfoKey.weight	
+baseMargin	xgboost.html#baseMargin	XGDMatrixInfoKey.baseMargin	
+group	xgboost.html#group	XGDMatrixInfoKey.group	
+qid	xgboost.html#qid	XGDMatrixInfoKey.qid	
+labelLowerBound	xgboost.html#labelLowerBound	XGDMatrixInfoKey.labelLowerBound	
+labelUpperBound	xgboost.html#labelUpperBound	XGDMatrixInfoKey.labelUpperBound	
+featureWeights	xgboost.html#featureWeights	XGDMatrixInfoKey.featureWeights	
+XGDMatrixInfoKey	xgboost.html#XGDMatrixInfoKey	xgboost: XGDMatrixInfoKey	
 XGError	xgboost.html#XGError	xgboost: XGError	
 XGDMatrix	xgboost.html#XGDMatrix	xgboost: XGDMatrix	
 XGDevice	xgboost.html#XGDevice	xgboost: XGDevice	
@@ -14,9 +23,9 @@ newXGDMatrix	xgboost.html#newXGDMatrix,seq[array[N,float32]],float32	xgboost: ne
 nRow	xgboost.html#nRow,XGDMatrix	xgboost: nRow(m: XGDMatrix): int	
 nCol	xgboost.html#nCol,XGDMatrix	xgboost: nCol(m: XGDMatrix): int	
 slice	xgboost.html#slice,XGDMatrix,seq[int]	xgboost: slice(handle: XGDMatrix; idx: seq[int]): XGDMatrix	
-setInfo	xgboost.html#setInfo,XGDMatrix,string,seq[float32]	xgboost: setInfo(handle: XGDMatrix; field: string; arr: seq[float32])	
-setInfo	xgboost.html#setInfo,XGDMatrix,string,seq[uint32]	xgboost: setInfo(handle: XGDMatrix; field: string; arr: seq[uint32])	
-setInfo	xgboost.html#setInfo,XGDMatrix,string,seq[string]	xgboost: setInfo(handle: XGDMatrix; field: string; arr: seq[string])	
+setInfo	xgboost.html#setInfo,XGDMatrix,,seq[float32]	xgboost: setInfo(handle: XGDMatrix; field: XGDMatrixInfoKey | string; arr: seq[float32])	
+setInfo	xgboost.html#setInfo,XGDMatrix,,seq[uint32]	xgboost: setInfo(handle: XGDMatrix; field: XGDMatrixInfoKey | string; arr: seq[uint32])	
+setInfo	xgboost.html#setInfo,XGDMatrix,,seq[string]	xgboost: setInfo(handle: XGDMatrix; field: XGDMatrixInfoKey | string; arr: seq[string])	
 saveBinary	xgboost.html#saveBinary,XGDMatrix,string,int	xgboost: saveBinary(handle: XGDMatrix; fname: string; silent: int = 1)	
 getFloatInfo	xgboost.html#getFloatInfo,XGDMatrix,string	xgboost: getFloatInfo(handle: XGDMatrix; field: string): seq[float32]	
 getUIntInfo	xgboost.html#getUIntInfo,XGDMatrix,string	xgboost: getUIntInfo(handle: XGDMatrix; field: string): seq[uint32]	
@@ -30,6 +39,9 @@ eval	xgboost.html#eval,XGBooster,int,openArray[]	xgboost: eval(b: XGBooster; ite
 train	xgboost.html#train,openArray[],XGDMatrix,int,openArray[]	xgboost: train(params: openArray[(string, string)]; dtrain: XGDMatrix;\n      num_boost_round: int = 10; evals: openArray[(string, XGDMatrix)] = []): XGBooster	
 predict	xgboost.html#predict,XGBooster,XGDMatrix	xgboost: predict(b: XGBooster; m: XGDMatrix): seq[float32]	
 predict	xgboost.html#predict,XGBooster,seq[float32],float32	xgboost: predict(b: XGBooster; v: seq[float32]; missing: float32 = DEFAULT_MISSING): float32	
+predictSeq	xgboost.html#predictSeq,XGBooster,XGDMatrix	xgboost: predictSeq(b: XGBooster; m: XGDMatrix): seq[seq[float32]]	
+Make prediction from single row. Output seq[float32]. Useful for multi:softprob	xgboost.html#make-prediction-from-single-rowdot-output-seq-float32-dot-useful-for-multicolonsoftprob	  Make prediction from single row. Output seq[float32]. Useful for multi:softprob	
+predictSeq	xgboost.html#predictSeq,XGBooster,seq[float32],float32	xgboost: predictSeq(b: XGBooster; v: seq[float32]; missing: float32 = DEFAULT_MISSING): seq[\n    float32]	Make prediction from single row. Output seq[float32]. Useful for multi:softprob
 saveModel	xgboost.html#saveModel,XGBooster,string	xgboost: saveModel(b: XGBooster; fname: string)	
 loadModel	xgboost.html#loadModel,XGBooster,string	xgboost: loadModel(b: XGBooster; fname: string)	
 getAttr	xgboost.html#getAttr,XGBooster,string	xgboost: getAttr(b: XGBooster; key: string): Option[string]	
