@@ -47,6 +47,7 @@ task version, "update version":
 
 task gendoc, "generate docs":
   exec "nim doc --out:docs --project src/xgboost.nim"
+  mvFile "docs/theindex.html", "docs/index.html"
 
 task release_patch, "release with patch increment":
   exec "release-it --ci -i patch"
